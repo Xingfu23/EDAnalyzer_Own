@@ -61,7 +61,7 @@ class DemoAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-      //unsigned int minTracks_;
+      unsigned int minTracks_;
       edm::EDGetTokenT<TrackCollection> tracksToken_;  //used to select what tracks to read from configuration file
 };
 
