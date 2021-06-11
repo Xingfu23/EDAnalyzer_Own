@@ -61,8 +61,8 @@ class DemoAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-      unsigned int minTracks_;
       edm::EDGetTokenT<TrackCollection> tracksToken_;  //used to select what tracks to read from configuration file
+      unsigned int minTracks_;
 };
 
 //
@@ -76,20 +76,12 @@ class DemoAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 //
 // constructors and destructor
 //
-DemoAnalyzer::DemoAnalyzer(const edm::ParameterSet& iConfig):
-
-
-tracksToken_(consumes<TrackCollection>(iConfig.getUntrackedParameter<edm::InputTag>("tracks")))
-{
-
-}
-
-minTracks_(iConfig.getUntrackedParameter<unsigned int>("minTracks",0))
+DemoAnalyzer::DemoAnalyzer(const edm::ParameterSet &iConfig) : 
+   tracksToken_(consumes<TrackCollection>(iConfig.getUntrackedParameter<edm::InputTag>("tracks"))), 
+   minTracks_(iConfig.getUntrackedParameter<unsigned int>("minTracks", 0))
 {
    //now do what ever initialization is needed
-
 }
-
 
 DemoAnalyzer::~DemoAnalyzer()
 {
