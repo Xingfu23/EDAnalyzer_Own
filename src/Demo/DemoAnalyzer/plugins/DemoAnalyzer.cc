@@ -33,7 +33,10 @@
 #include "DataFormats/TrackReco/interface/TrackFwd.h"
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "PhysicsTools/FWLite/interface/TFileService.h"
 //#include "PhysicsTools/UtilAlgos/interface/TFileService.h"
+#include "TH1.h"
 
 //
 // class declaration
@@ -63,6 +66,7 @@ class DemoAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       // ----------member data ---------------------------
       edm::EDGetTokenT<TrackCollection> tracksToken_;  //used to select what tracks to read from configuration file
       unsigned int minTracks_;
+      TH1D *demohisto;
 };
 
 //
@@ -80,7 +84,10 @@ DemoAnalyzer::DemoAnalyzer(const edm::ParameterSet &iConfig) :
    tracksToken_(consumes<TrackCollection>(iConfig.getUntrackedParameter<edm::InputTag>("tracks"))), 
    minTracks_(iConfig.getUntrackedParameter<unsigned int>("minTracks", 0))
 {
-   //now do what ever initialization is needed
+   // now do what ever initialization is needed
+   // I want to make a histogram of number of tracks in an event
+   edm::Service<TFileService> fs;
+   demohisto = fs->make<TH1D>("tracks", "Tracks", 50, 0, 200);
 }
 
 DemoAnalyzer::~DemoAnalyzer()
@@ -101,6 +108,7 @@ void DemoAnalyzer::analyze(const edm::Event &iEvent, const edm::EventSetup &iSet
 
     Handle<TrackCollection> tracks;
     iEvent.getByToken(tracksToken_, tracks);
+    demohisto->Fill(tracks->size());
     
     if (minTracks_ <= tracks->size() ){
        LogInfo("Demo") << "number of tracks " << tracks->size();
