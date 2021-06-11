@@ -3,4 +3,5 @@
 <use name="FWCore/ParameterSet"/>
 <use name="DataFormats/TrackReco"/>
 <use name="CommonTools/UtilAlgos">
+<use name="PhysicsTools/UtilAlgos"/>
 <flags EDM_PLUGIN="1"/>
